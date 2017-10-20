@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="throttle_control" type="speed_raw.py" name="speed_raw" output="screen"/>
+  <node pkg="throttle_control" type="speed_preprocessor.py" name="preprocessor" output="screen"/>
+</launch>
