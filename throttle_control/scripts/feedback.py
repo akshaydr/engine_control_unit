@@ -16,11 +16,12 @@ last_time = rospy.Time
 state = 0
 prevState = 0
 counter = 0.0
-
+sensor_val = 0
 sensor = 4
 
 
 def get_rpm():
+  global current_time, last_time, state, prevState, counter, sensor, sensor_val
   if RPI:
     sensor_val = GPIO.input(sensor)
 
@@ -33,10 +34,10 @@ def get_rpm():
       counter += 1
     prevState = state
 
-  while (last_time - startTime) > 0.1:
-    print counter / 6
-    counter = 0
-    startTime = last_time
+  # while ((last_time - current_time) > 0.1):
+  #   print counter / 6
+  #   counter = 0
+  #   current_time = last_time
 
 
 if __name__ == '__main__':
