@@ -40,7 +40,7 @@
     <origin xyz="0.14 -0.020 0.016" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="nut_assem"/>
-    <axis xyz="0 1 0"/>
-    <limit lower="-0.1" upper="0.1" effort="10" velocity="0.01"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="-0.04" effort="10" velocity="0.01"/>
   </joint>
 </robot>
