@@ -8,7 +8,7 @@ import time
 
 if RPI:
   import RPi.GPIO as GPIO
-  GPIO.setmode(GP, IO.BOARD)
+  GPIO.setmode(GPIO.BOARD)
   GPIO.setup(sensor, GPIO.IN)
 
 last_time = rospy.Time()
@@ -22,7 +22,7 @@ sensor = 4
 def get_rpm():
   global current_time, last_time, state, prevState, counter, sensor, sensor_val
 
-  current_time = rospy.Time()
+  current_time = rospy.Time.now()
 
   if RPI:
     sensor_val = GPIO.input(sensor)
