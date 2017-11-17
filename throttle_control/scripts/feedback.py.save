@@ -6,7 +6,7 @@ import rospy
 from std_msgs.msg import Float32
 import time
 
-sensor = 3
+sensor = 5
 
 if RPI:
   import RPi.GPIO as GPIO
@@ -28,24 +28,24 @@ def get_rpm():
   if RPI:
     sensor_val = GPIO.input(sensor)
   
-#  print (sensor_val)
+  print (sensor_val)
 
-  if (sensor_val == 1):
-    state = 1
-  elif (sensor_val == 0):
-    state = 0
+#  if (sensor_val > 650):
+#    state = 1
+#  else:
+#    state = 0
 
-  if (state != prevState):
-    if(state == 1):
-      counter += 1
-    prevState = state
+#  if (state != prevState):
+#    if(state == 1):
+#      counter += 1
+#    prevState = state
   
-  val = (current_time - last_time).to_sec()
+#  val = (current_time - last_time).to_sec()
 #  print (val)
-  if (val > 1):
-    print counter * 60 
-    counter = 0
-    last_time = current_time
+#  if (val > 0.1):
+#    print counter / 6
+#    counter = 0
+#    last_time = current_time
 
 
 if __name__ == '__main__':
@@ -59,4 +59,3 @@ if __name__ == '__main__':
     get_rpm()
     pub.publish(counter)
     rate.sleep()
-  GPIO.cleanup()
