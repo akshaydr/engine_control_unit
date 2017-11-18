@@ -16,7 +16,7 @@ def speed_cb(msg):
 
 def feedback_cb(msg):
   feedback_speed = msg.data
-
+  print("controlle_val=",feedback_speed)
 
 def pid_control():
   global set_speed, feedback_speed

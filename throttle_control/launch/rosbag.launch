@@ -1,0 +1,4 @@
+<launch>
+<node pkg="rosbag" type="record" name="ros_bag" args="-o /home/pi/Records/record_ /feedback_val" output="screen"/>
+<node pkg="throttle_control" type="feedback.py" name="feedback"/>
+</launch>

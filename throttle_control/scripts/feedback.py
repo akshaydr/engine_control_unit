@@ -42,10 +42,11 @@ def get_rpm():
     prevState = state
   
   val = (current_time - last_time).to_sec()
-
-  if (counter >= 4):
+#  print (counter)
+  if (counter >= 2):
     rpm = (60.0*counter) / (val)
     print (rpm, val, counter)
+    pub.publish(rpm)
     counter = 0
     last_time = current_time
 
@@ -57,14 +58,14 @@ def get_rpm():
 
 
 if __name__ == '__main__':
-  global counter
+  global rpm
   rospy.init_node('feedback_val')
   last_time = rospy.Time.now()
   pub = rospy.Publisher('feedback_val', Float32, queue_size=10)
-  rate = rospy.Rate(10)
+  rate = rospy.Rate(60) #60 Hz
 
   while not rospy.is_shutdown():
     get_rpm()
-    pub.publish(counter)
     rate.sleep()
+
   GPIO.cleanup()
