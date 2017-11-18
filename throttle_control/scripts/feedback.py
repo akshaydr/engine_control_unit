@@ -19,6 +19,7 @@ prevState = 0
 counter = 0.0
 sensor_val = 0.0
 val = 0
+rpm = 0.0
 
 def get_rpm():
   global current_time, last_time, state, prevState, counter, sensor, sensor_val
@@ -41,11 +42,18 @@ def get_rpm():
     prevState = state
   
   val = (current_time - last_time).to_sec()
-#  print (val)
-  if (val > 1):
-    print counter * 60 
+
+  if (counter >= 4):
+    rpm = (60.0*counter) / (val)
+    print (rpm, val, counter)
     counter = 0
     last_time = current_time
+
+#  print (val)
+#  if (val > 1):
+#    print counter * 60 
+#    counter = 0
+#    last_time = current_time
 
 
 if __name__ == '__main__':
