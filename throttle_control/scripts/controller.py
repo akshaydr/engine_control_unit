@@ -35,10 +35,10 @@ def pid_control():
   # rospy.loginfo(diff)
   if (diff > 0):
     pub.publish("cw")
-    rospy.loginfo("Move cw")
+    # rospy.loginfo("Move cw")
   else:
     pub.publish("ccw")
-    rospy.loginfo("Move ccw")
+    # rospy.loginfo("Move ccw")
 
 if __name__ == '__main__':
   rospy.init_node('controller')

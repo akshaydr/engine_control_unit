@@ -13,7 +13,7 @@ if RPI:
   GPIO.setmode(GPIO.BOARD)
 
   M1pwm = 12
-  M1dir = 3  # Motor 1
+  M1dir = 5  # Motor 1
 
   GPIO.setup(M1pwm, GPIO.OUT)
   GPIO.setup(M1dir, GPIO.OUT)
@@ -27,6 +27,7 @@ else:
 
 
 def callback(msg):
+  rospy.loginfo(msg.data)
   if RPI:
     if (msg.data == "cw"):
       pwm1.start()
