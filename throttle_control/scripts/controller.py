@@ -4,11 +4,13 @@ import rospy
 from std_msgs.msg import Float32
 from std_msgs.msg import Int32
 from std_msgs.msg import String
+import tf
 import time
 
 set_speed = 0
 feedback_speed = 0.0
-
+direction = -0.135
+current_time = rospy.Time()
 
 def speed_cb(msg):
     global set_speed
@@ -21,7 +23,9 @@ def feedback_cb(msg):
     # print("controlle_val=",feedback_speed)
 
 def pid_control():
-  global set_speed, feedback_speed
+  global set_speed, feedback_speed, direction
+  current_time = rospy.Time.now()
+  odom_broadcaster = tf.TransformBroadcaster()
   diff = set_speed - feedback_speed
 
 #   PID code. need to be modified based on the required application.
@@ -36,9 +40,38 @@ def pid_control():
   if (diff > 0):
     pub.publish("cw")
     # rospy.loginfo("Move cw")
-  else:
+    odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
+    odom_broadcaster.sendTransform(
+        (direction,0.02,-0.016),
+        odom_quat,
+        current_time,
+        "base_link",
+        "nut_assem"
+    )
+    direction += 0.00012
+
+  elif (diff < 0):
     pub.publish("ccw")
     # rospy.loginfo("Move ccw")
+    odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
+    odom_broadcaster.sendTransform(
+        (direction,0.02,-0.016),
+        odom_quat,
+        current_time,
+        "base_link",
+        "nut_assem"
+    )
+    direction -= 0.00012
+
+  else:
+    odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
+    odom_broadcaster.sendTransform(
+        (direction,0.02,-0.016),
+        odom_quat,
+        current_time,
+        "base_link",
+        "nut_assem"
+    )
 
 if __name__ == '__main__':
   rospy.init_node('controller')
