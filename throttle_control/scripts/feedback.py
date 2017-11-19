@@ -28,7 +28,7 @@ def get_rpm():
 
   if RPI:
     sensor_val = GPIO.input(sensor)
-  
+
 #  print (sensor_val)
 
   if (sensor_val == 1):
@@ -40,7 +40,7 @@ def get_rpm():
     if(state == 1):
       counter += 1
     prevState = state
-  
+
   val = (current_time - last_time).to_sec()
 #  print (counter)
   if (counter >= 2):
@@ -52,7 +52,7 @@ def get_rpm():
 
 #  print (val)
 #  if (val > 1):
-#    print counter * 60 
+#    print counter * 60
 #    counter = 0
 #    last_time = current_time
 

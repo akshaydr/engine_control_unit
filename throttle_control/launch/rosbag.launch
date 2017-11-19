@@ -1,4 +1,16 @@
 <launch>
-<node pkg="rosbag" type="record" name="ros_bag" args="-o /home/pi/Records/record_ /feedback_val" output="screen"/>
-<node pkg="throttle_control" type="feedback.py" name="feedback"/>
+
+<arg name="play" default="True"/>
+<arg name="rosbag" default="/home/akshay/miniRecords/encoder_val2.bag" />
+
+<group unless="$(arg play)">
+  <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/akshay/miniRecords/record_ /feedback_val" output="screen"/>
+</group>
+
+<node pkg="throttle_control" type="controller.py" name="controller" output="screen"/>
+
+<group if="$(arg play)">
+  <node pkg="rosbag" type="play" name="robot_bag_player" args="$(arg rosbag) --keep-alive --clock" />
+</group>
+
 </launch>

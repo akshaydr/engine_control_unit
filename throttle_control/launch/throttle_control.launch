@@ -1,6 +1,4 @@
 <launch>
-  <node pkg="throttle_control" type="speed_raw.py" name="speed_raw" output="screen"/>
   <node pkg="throttle_control" type="feedback.py" name="feedback" output="screen"/>
-  <node pkg="throttle_control" type="driver.py" name="drive" output="screen"/>
   <node pkg="throttle_control" type="controller.py" name="controller" output="screen"/>
 </launch>
