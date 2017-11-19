@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-RPI = False
+RPI = True
 
 import rospy
 from std_msgs.msg import String

@@ -9,7 +9,7 @@
 
 <node pkg="throttle_control" type="controller.py" name="controller" output="screen"/>
 <node pkg="throttle_control" type="speed_raw.py" name="speed_set" output="screen"/>
-<node pkg="throttle_control" type="driver.py" name="driver" output="screen"/>
+<!-- <node pkg="throttle_control" type="driver.py" name="driver" output="screen"/> -->
 
 <group if="$(arg play)">
   <node pkg="rosbag" type="play" name="robot_bag_player" args="$(arg rosbag) --keep-alive --clock" />
