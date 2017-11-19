@@ -47,5 +47,5 @@ if __name__ == '__main__':
 
   while not rospy.is_shutdown():
     rospy.spin()
-    if RPI:
-      GPIO.cleanup()
+if RPI:
+  GPIO.cleanup()
