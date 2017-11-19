@@ -11,12 +11,14 @@ feedback_speed = 0.0
 
 
 def speed_cb(msg):
-  set_speed = msg.data
-
+    global set_speed
+    set_speed = msg.data
+    # rospy.loginfo(set_speed)
 
 def feedback_cb(msg):
-  feedback_speed = msg.data
-  print("controlle_val=",feedback_speed)
+    global feedback_speed
+    feedback_speed = msg.data
+    # print("controlle_val=",feedback_speed)
 
 def pid_control():
   global set_speed, feedback_speed
@@ -30,18 +32,20 @@ def pid_control():
    # if (e_speed_sum >4000) e_speed_sum = 4000;
    # if (e_speed_sum <-4000) e_speed_sum = -4000;
 
+  # rospy.loginfo(diff)
   if (diff > 0):
     pub.publish("cw")
+    rospy.loginfo("Move cw")
   else:
     pub.publish("ccw")
-
+    rospy.loginfo("Move ccw")
 
 if __name__ == '__main__':
   rospy.init_node('controller')
   pub = rospy.Publisher('dirver_val', String, queue_size=10)
   rospy.Subscriber('speed_raw', Int32, speed_cb)
   rospy.Subscriber('feedback_val', Float32, feedback_cb)
-
+  rate = rospy.Rate(10)
   while not rospy.is_shutdown():
     pid_control()
-    rospy.spin()
+    rate.sleep()
