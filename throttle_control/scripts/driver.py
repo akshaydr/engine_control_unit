@@ -30,11 +30,11 @@ def callback(msg):
   rospy.loginfo(msg.data)
   if RPI:
     if (msg.data == "cw"):
-      pwm1.start()
+      pwm1.start(50)
       GPIO.output(M1dir, GPIO.HIGH)
 
     elif (msg.data == "ccw"):
-      pwm1.start()
+      pwm1.start(50)
       GPIO.output(M1dir, GPIO.LOW)
 
     else:
