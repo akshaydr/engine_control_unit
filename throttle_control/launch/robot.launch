@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="sim" default="False"/>
 
   <include file="$(find throt_control_description)/launch/rviz.launch"/>
   <include file="$(find throt_control_description)/launch/throttle_description.launch"/>
   <include file="$(find throttle_control)/launch/rosbag.launch"/>
+  <include file="$(find throttle_control)/launch/throttle_control.launch"/>
 
 </launch>
