@@ -4,7 +4,7 @@
 <arg name="rosbag" default="/home/akshay/miniRecords/encoder_val2.bag" />
 
 <group unless="$(arg play)">
-  <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/akshay/miniRecords/record_ /feedback_val" output="screen"/>
+  <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/akshay/miniRecords/record_ /feedback_val /dirver_val" output="screen"/>
 </group>
 
 <group if="$(arg play)">

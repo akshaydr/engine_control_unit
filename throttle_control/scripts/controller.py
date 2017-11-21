@@ -19,9 +19,9 @@ kp = 0.0
 # kd =
 
 def speed_cb(msg):
-    global set_speed
+    global set_speed, kp
     set_speed = msg.data
-    kp = 100 / set_speed
+    kp = 100.0 / set_speed
     # rospy.loginfo(set_speed)
 
 def feedback_cb(msg):
@@ -30,7 +30,7 @@ def feedback_cb(msg):
     # print("controlle_val=",feedback_speed)
 
 def pid_control():
-  global set_speed, feedback_speed, direction, e_speed, e_speed_sum, e_speed_pre, kp, ki, kd
+  global set_speed, feedback_speed, direction, e_speed, e_speed_sum, e_speed_pre, kp, ki, kd, pwm_pulse
   current_time = rospy.Time.now()
   odom_broadcaster = tf.TransformBroadcaster()
   e_speed = set_speed - feedback_speed
@@ -43,7 +43,7 @@ def pid_control():
   # if (e_speed_sum >4000) e_speed_sum = 4000;
   # if (e_speed_sum <-4000) e_speed_sum = -4000;
 
-  # rospy.loginfo(e_speed)
+  rospy.loginfo(pwm_pulse)
   if (pwm_pulse > 0):
     pub.publish(pwm_pulse)
     # rospy.loginfo("Move cw")
@@ -83,10 +83,10 @@ def pid_control():
 
 if __name__ == '__main__':
   rospy.init_node('controller')
-  pub = rospy.Publisher('dirver_val', Float32, queue_size=10)
+  pub = rospy.Publisher('dirver_val', Float32, queue_size=20)
   rospy.Subscriber('speed_raw', Int32, speed_cb)
   rospy.Subscriber('feedback_val', Float32, feedback_cb)
-  rate = rospy.Rate(10)
+  rate = rospy.Rate(60)
   while not rospy.is_shutdown():
     pid_control()
     rate.sleep()
