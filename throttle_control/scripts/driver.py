@@ -23,7 +23,8 @@ if RPI:
   GPIO.output(M1pwm, GPIO.LOW)
   GPIO.output(M1dir, GPIO.LOW)
 
-  pwm1 = GPIO.PWM(M1pwm, 1)
+  pwm1 = GPIO.PWM(M1pwm, 50)
+  pwm1.start(0)
 else:
   print("Simulated setup done!")
 
@@ -54,8 +55,9 @@ if __name__ == '__main__':
 
   while not rospy.is_shutdown():
     motor_run()
+    pwm1.ChangeDutyCycle(20)
+    GPIO.output(M1dir, GPIO.HIGH)
     rate.sleep()
-   
 
   if RPI:
     GPIO.cleanup()

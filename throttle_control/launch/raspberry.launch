@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="sim" default="True"/>
+  <arg name="sim" default="False"/>
   <node pkg="throttle_control" type="driver.py" name="driver" output="screen"/>
 
   <group unless="$(arg sim)">
