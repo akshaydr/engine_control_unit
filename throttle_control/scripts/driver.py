@@ -9,6 +9,8 @@ import time
 if RPI:
   import RPi.GPIO as GPIO
 
+direction = ""
+
 if RPI:
   GPIO.setmode(GPIO.BOARD)
 
@@ -27,18 +29,20 @@ else:
 
 
 def callback(msg):
-  rospy.loginfo(msg.data)
+  direction = msg.data
+  rospy.loginfo(direction)
   if RPI:
-    if (msg.data == "cw"):
+    if (direction == "cw"):
       pwm1.start(50)
       GPIO.output(M1dir, GPIO.HIGH)
 
-    elif (msg.data == "ccw"):
+    elif (direction == "ccw"):
       pwm1.start(50)
       GPIO.output(M1dir, GPIO.LOW)
 
-    else:
-      pwm.stop()
+  elif (direction == "stop"):
+      pwm1.stop()
+      GPIO.output(M1dir, GPIO.LOW)
 
 
 if __name__ == '__main__':
