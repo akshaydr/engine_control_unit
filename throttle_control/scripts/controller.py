@@ -13,13 +13,15 @@ direction = -0.135
 current_time = rospy.Time()
 # e_speed_sum = 0.0
 # e_speed_pre = 0.0
-# kp =
+pwm_pulse = 0.0
+kp = 0.0
 # ki =
 # kd =
 
 def speed_cb(msg):
     global set_speed
     set_speed = msg.data
+    kp = 100 / set_speed
     # rospy.loginfo(set_speed)
 
 def feedback_cb(msg):
@@ -32,7 +34,7 @@ def pid_control():
   current_time = rospy.Time.now()
   odom_broadcaster = tf.TransformBroadcaster()
   e_speed = set_speed - feedback_speed
-
+  pwm_pulse = e_speed * kp
   # PID code. need to be modified based on the required application.
   # e_speed = set_speed - feedback_speed;
   # pwm_pulse = e_speed*kp + e_speed_sum*ki + (e_speed - e_speed_pre)*kd;
@@ -42,8 +44,8 @@ def pid_control():
   # if (e_speed_sum <-4000) e_speed_sum = -4000;
 
   # rospy.loginfo(e_speed)
-  if (e_speed > 50):
-    pub.publish("cw")
+  if (pwm_pulse > 0):
+    pub.publish(pwm_pulse)
     # rospy.loginfo("Move cw")
     odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
     odom_broadcaster.sendTransform(
@@ -55,8 +57,8 @@ def pid_control():
     )
     direction += 0.00012
 
-  elif (e_speed < -50):
-    pub.publish("ccw")
+  elif (pwm_pulse < 0):
+    pub.publish(pwm_pulse)
     # rospy.loginfo("Move ccw")
     odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
     odom_broadcaster.sendTransform(
@@ -68,8 +70,8 @@ def pid_control():
     )
     direction -= 0.00012
 
-  elif (e_speed > -50 and e_speed < 50):
-    pub.publish("stop")
+  else:
+    pub.publish(pwm_pulse)
     odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
     odom_broadcaster.sendTransform(
         (direction,0.02,-0.016),
@@ -81,7 +83,7 @@ def pid_control():
 
 if __name__ == '__main__':
   rospy.init_node('controller')
-  pub = rospy.Publisher('dirver_val', String, queue_size=10)
+  pub = rospy.Publisher('dirver_val', Float32, queue_size=10)
   rospy.Subscriber('speed_raw', Int32, speed_cb)
   rospy.Subscriber('feedback_val', Float32, feedback_cb)
   rate = rospy.Rate(10)

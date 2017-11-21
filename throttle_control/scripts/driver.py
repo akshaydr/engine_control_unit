@@ -3,13 +3,13 @@
 RPI = True
 
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import Float32
 import time
 
 if RPI:
   import RPi.GPIO as GPIO
 
-direction = "stop"
+pwm_val = 0
 
 if RPI:
   GPIO.setmode(GPIO.BOARD)
@@ -29,34 +29,32 @@ else:
   print("Simulated setup done!")
 
 def motor_run():
-  global direction
-  rospy.loginfo(direction)
+  global pwm_val
+  rospy.loginfo(pwm_val)
   if RPI:
-    if (direction == "cw"):
-      pwm1.start(100)
+    if (pwm_val > 0):
+      pwm1.ChangeDutyCycle(pwm_val)
       GPIO.output(M1dir, GPIO.HIGH)
 
-    elif (direction == "ccw"):
-      pwm1.start(100)
+    elif (pwm_val < 0):
+      pwm1.ChangeDutyCycle(pwm_val)
       GPIO.output(M1dir, GPIO.LOW)
 
-    elif (direction == "stop"):
+    elif (pwm_val == 0):
       pwm1.stop()
       GPIO.output(M1dir, GPIO.LOW)
- 
+
 def callback(msg):
-  global direction
-  direction = msg.data
+  global pwm_val
+  pwm_val = msg.data
 
 if __name__ == '__main__':
   rospy.init_node('driver')
-  rospy.Subscriber('dirver_val', String, callback)
+  rospy.Subscriber('dirver_val', Float32, callback)
   rate = rospy.Rate(60)
 
   while not rospy.is_shutdown():
     motor_run()
-    pwm1.ChangeDutyCycle(20)
-    GPIO.output(M1dir, GPIO.HIGH)
     rate.sleep()
 
   if RPI:
