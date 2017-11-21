@@ -3,7 +3,7 @@
 import rospy
 from std_msgs.msg import Int32
 
-vehicle_speed = 250
+vehicle_speed = 500
 
 if __name__ == '__main__':
     rospy.init_node('speed')

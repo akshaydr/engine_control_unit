@@ -1,6 +1,6 @@
 <launch>
 
-<arg name="play" default="True"/>
+<arg name="play" default="False"/>
 <arg name="rosbag" default="/home/akshay/miniRecords/encoder_val2.bag" />
 
 <group unless="$(arg play)">
