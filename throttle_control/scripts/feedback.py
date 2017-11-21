@@ -45,7 +45,7 @@ def get_rpm():
 #  print (counter)
   if (counter >= 2):
     rpm = (60.0*counter) / (val)
-    print (rpm, val, counter)
+#    print (rpm, val, counter)
     pub.publish(rpm)
     counter = 0
     last_time = current_time

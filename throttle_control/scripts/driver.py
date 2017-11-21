@@ -33,10 +33,13 @@ def motor_run():
   rospy.loginfo(pwm_val)
   if RPI:
     if (pwm_val > 0):
+      pwm1.start(0)
       pwm1.ChangeDutyCycle(pwm_val)
       GPIO.output(M1dir, GPIO.HIGH)
 
     elif (pwm_val < 0):
+      pwm1.start(0)
+      pwm_val = pwm_val * (-1)
       pwm1.ChangeDutyCycle(pwm_val)
       GPIO.output(M1dir, GPIO.LOW)
 
@@ -47,6 +50,7 @@ def motor_run():
 def callback(msg):
   global pwm_val
   pwm_val = msg.data
+  pwm_val = int(pwm_val)
 
 if __name__ == '__main__':
   rospy.init_node('driver')
