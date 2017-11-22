@@ -3,7 +3,7 @@
 RPI = True
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 import time
 
 if RPI:
@@ -54,7 +54,7 @@ def callback(msg):
 
 if __name__ == '__main__':
   rospy.init_node('driver')
-  rospy.Subscriber('dirver_val', Float32, callback)
+  rospy.Subscriber('driver_val', Float64, callback)
   rate = rospy.Rate(60)
 
   while not rospy.is_shutdown():
