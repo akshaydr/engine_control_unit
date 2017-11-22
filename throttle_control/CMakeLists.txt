@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   throt_control_description
+  encoder_control
 )
 
 ## System dependencies are found with CMake's conventions

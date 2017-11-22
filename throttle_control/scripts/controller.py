@@ -2,6 +2,7 @@
 
 import rospy
 from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 from std_msgs.msg import Int32
 from std_msgs.msg import Int64
 from std_msgs.msg import String
@@ -9,6 +10,10 @@ import tf
 import time
 
 encoder_data = 0
+position = 0.0
+set_position = 5.0
+e_position = 0.0
+
 set_speed = 0
 feedback_speed = 0.0
 direction = -0.135
@@ -34,8 +39,16 @@ def feedback_cb(msg):
 def encoder_cb(msg):
     global encoder_data
     encoder_data = msg.data
-    position = encoder_data * 0.266666
     rospy.loginfo(position)
+
+def encoder_pid():
+    global position, encoder_data, e_position, set_position
+    position = encoder_data * 0.266666
+    e_position = set_position - position
+    if (e_position > 0):
+        pub.publish(100.0)
+    elif (e_position < 0):
+        pub.publish(-100.0)
 
 def pid_control():
   global set_speed, feedback_speed, direction, e_speed, e_speed_sum, e_speed_pre, kp, ki, kd, pwm_pulse
@@ -51,7 +64,7 @@ def pid_control():
   # if (e_speed_sum >4000) e_speed_sum = 4000;
   # if (e_speed_sum <-4000) e_speed_sum = -4000;
 
-  rospy.loginfo(pwm_pulse)
+  # rospy.loginfo(pwm_pulse)
   if (pwm_pulse > 0):
     pub.publish(pwm_pulse)
     # rospy.loginfo("Move cw")
@@ -91,11 +104,11 @@ def pid_control():
 
 if __name__ == '__main__':
   rospy.init_node('controller')
-  pub = rospy.Publisher('dirver_val', Float32, queue_size=20)
+  pub = rospy.Publisher('driver_val', Float32, queue_size=20)
   rospy.Subscriber('speed_raw', Int32, speed_cb)
   rospy.Subscriber('feedback_val', Float32, feedback_cb)
   rospy.Subscriber('encoder_val', Int64, encoder_cb)
   rate = rospy.Rate(60)
   while not rospy.is_shutdown():
-    pid_control()
+    encoder_pid()
     rate.sleep()
