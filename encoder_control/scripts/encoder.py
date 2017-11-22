@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-RPI = False
+RPI = True
 
 import rospy
 from std_msgs.msg import Int64
@@ -22,19 +22,21 @@ clkLastState = GPIO.input(clk)
 
 def encoder_data():
     global counter, clkState, clkLastState, dtState, clk, dt
-    clkState = GPIO.input(clk)
-    dtState = GPIO.input(dt)
+    if RPI:
+        clkState = GPIO.input(clk)
+        dtState = GPIO.input(dt)
     if clkState != clkLastState:
         if dtState != clkState:
                 counter += 1
         else:
                 counter -= 1
+        rospy.loginfo(counter)
         pub.publish(counter)
     clkLastState = clkState
 
 if __name__ == '__main__':
   global rpm
-  rospy.init_node('feedback_val')
+  rospy.init_node('encoder_val')
   last_time = rospy.Time.now()
   pub = rospy.Publisher('encoder_val', Int64, queue_size=10)
 

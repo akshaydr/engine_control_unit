@@ -4,6 +4,7 @@ RPI = True
 
 import rospy
 from std_msgs.msg import Float64
+from std_msgs.msg import Float32
 import time
 
 if RPI:
@@ -14,7 +15,7 @@ pwm_val = 0
 if RPI:
   GPIO.setmode(GPIO.BOARD)
 
-  M1pwm = 12
+  M1pwm = 13
   M1dir = 5  # Motor 1
 
   GPIO.setup(M1pwm, GPIO.OUT)
@@ -54,7 +55,7 @@ def callback(msg):
 
 if __name__ == '__main__':
   rospy.init_node('driver')
-  rospy.Subscriber('driver_val', Float64, callback)
+  rospy.Subscriber('driver_val', Float32, callback)
   rate = rospy.Rate(60)
 
   while not rospy.is_shutdown():
