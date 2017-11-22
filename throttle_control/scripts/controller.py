@@ -3,10 +3,12 @@
 import rospy
 from std_msgs.msg import Float32
 from std_msgs.msg import Int32
+from std_msgs.msg import Int64
 from std_msgs.msg import String
 import tf
 import time
 
+encoder_data = 0
 set_speed = 0
 feedback_speed = 0.0
 direction = -0.135
@@ -28,6 +30,12 @@ def feedback_cb(msg):
     global feedback_speed
     feedback_speed = msg.data
     # print("controlle_val=",feedback_speed)
+
+def encoder_cb(msg):
+    global encoder_data
+    encoder_data = msg.data
+    position = encoder_data * 0.266666
+    rospy.loginfo(position)
 
 def pid_control():
   global set_speed, feedback_speed, direction, e_speed, e_speed_sum, e_speed_pre, kp, ki, kd, pwm_pulse
@@ -86,6 +94,7 @@ if __name__ == '__main__':
   pub = rospy.Publisher('dirver_val', Float32, queue_size=20)
   rospy.Subscriber('speed_raw', Int32, speed_cb)
   rospy.Subscriber('feedback_val', Float32, feedback_cb)
+  rospy.Subscriber('encoder_val', Int64, encoder_cb)
   rate = rospy.Rate(60)
   while not rospy.is_shutdown():
     pid_control()
