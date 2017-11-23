@@ -13,7 +13,7 @@
   <node pkg="throttle_control" type="enco_feedback.py" name="encoder_feedback"/>
   <node pkg="throttle_control" type="encoder_motor_control.py" name="encoder_motor_control" output="screen"/>
 
-  <node pkg="throttle_control" type="speed_raw.py" name="speed_controller"/>
+  <node pkg="throttle_control" type="speed_raw.py" name="set_speed"/>
 
   <node pkg="pid" type="controller" name="speed_pid" >
      <param name="Kp" value="5.0" />
