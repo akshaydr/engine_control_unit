@@ -1,7 +1,7 @@
 <launch>
 
 <arg name="play" default="False"/>
-<arg name="rosbag" default="/home/akshay/miniRecords/feedback.bag" />
+<arg name="rosbag" default="/home/pi/miniRecords/feedback.bag" />
 
 <group unless="$(arg play)">
   <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/akshay/miniRecords/record_ /feedback_val /dirver_val" output="screen"/>

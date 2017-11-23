@@ -3,16 +3,23 @@
 
   <!-- <include file="$(find throt_control_description)/launch/rviz.launch"/> -->
   <!-- <include file="$(find throt_control_description)/launch/throttle_description.launch"/> -->
-  <!-- <include file="$(find throttle_control)/launch/rosbag.launch">
+  <node pkg="throttle_control" type="float_convert.py" name="float_convert"/>
+
+  <include file="$(find throttle_control)/launch/rosbag.launch">
     <arg name="play" value="True"/>
-  </include> -->
+  </include>
+
+  <!-- <node pkg="throttle_control" type="speed_raw.py" name="speed_set" output="screen"/> -->
+  <node pkg="throttle_control" type="enco_feedback.py" name="encoder_feedback"/>
+  <node pkg="throttle_control" type="encoder_motor_control.py" name="encoder_motor_control" output="screen"/>
+
   <node pkg="throttle_control" type="speed_raw.py" name="speed_controller"/>
 
   <node pkg="pid" type="controller" name="speed_pid" >
      <param name="Kp" value="5.0" />
      <param name="Ki" value="0.0" />
      <param name="Kd" value="0.1" />
-     <param name="upper_limit" value="1500" />
+     <param name="upper_limit" value="800" />
      <param name="lower_limit" value="0" />
      <param name="windup_limit" value="10" />
      <param name="max_loop_frequency" value="100.0" />
@@ -23,15 +30,15 @@
   <node pkg="rostopic" type="rostopic" name="Enabling_PID"
     args='pub /pid_enable std_msgs/Bool "data: true"' output="screen"/>
 
-  <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot"/>
-  <!-- <node pkg="rostopic" type="rostopic" name="setting_setpoint" args='pub /setpoint std_msgs/Float64 "data: 500.0"' output="screen"/> -->
+  <!-- <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot"/> -->
+  <!-- <node pkg="rostopic" type="rostopic" name="setting_setpoint" args='pub /control_effort std_msgs/Float64 "data: 100.0"' output="screen"/> -->
 
-  <node pkg="throttle_control" type="float_convert.py" name="float_converter"/>
+  <!-- <node pkg="throttle_control" type="float_convert.py" name="float_converter"/> -->
 
   <!-- <node pkg="rqt_graph" type="rqt_graph" name="rqt_graph"/> -->
 
-  <node pkg="rostopic" type="rostopic" name="printing_control_effort"
-    args="echo /control_effort" output="screen"/>
+  <!-- <node pkg="rostopic" type="rostopic" name="printing_control_effort"
+    args="echo /control_effort" output="screen"/> -->
 
   <!-- <include file="$(find throttle_control)/launch/throttle_control.launch"/> -->
 

@@ -31,7 +31,7 @@ else:
 
 def motor_run():
   global pwm_val
-  rospy.loginfo(pwm_val)
+  # rospy.loginfo(pwm_val)
   if RPI:
     if (pwm_val > 0):
       pwm1.start(0)
