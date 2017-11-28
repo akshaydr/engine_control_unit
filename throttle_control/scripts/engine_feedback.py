@@ -3,7 +3,7 @@
 RPI = True
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 import time
 
 sensor = 3
@@ -22,7 +22,7 @@ val = 0
 rpm = 0.0
 
 def get_rpm():
-  global current_time, last_time, state, prevState, counter, sensor, sensor_val
+  global current_time, last_time, state, prevState, counter, sensor, sensor_val, rpm
 
   current_time = rospy.Time.now()
 
@@ -42,15 +42,19 @@ def get_rpm():
     prevState = state
 
   val = (current_time - last_time).to_sec()
-#  print (counter)
+  # print (counter)
+
   if (counter >= 2):
     rpm = (60.0*counter) / (val)
 #    print (rpm, val, counter)
-    pub.publish(rpm)
     counter = 0
     last_time = current_time
 
-#  print (val)
+  if (val > 2):
+    rpm = 10
+  rospy.loginfo(rpm)
+  pub.publish(rpm)
+  # print (rpm)
 #  if (val > 1):
 #    print counter * 60
 #    counter = 0
@@ -58,13 +62,12 @@ def get_rpm():
 
 
 if __name__ == '__main__':
-  global rpm
   rospy.init_node('feedback_val')
-  last_time = rospy.Time.now()
-  pub = rospy.Publisher('feedback_val', Float32, queue_size=10)
-  rate = rospy.Rate(60) #60 Hz
+  pub = rospy.Publisher('feedback_val', Float64, queue_size=10)
 
+  last_time = rospy.Time.now()
   while not rospy.is_shutdown():
     get_rpm()
 
-  GPIO.cleanup()
+GPIO.cleanup()
+rospy.loginfo("GPIO Cleanup done")

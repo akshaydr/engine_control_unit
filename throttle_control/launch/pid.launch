@@ -3,32 +3,36 @@
 
   <!-- <include file="$(find throt_control_description)/launch/rviz.launch"/> -->
   <!-- <include file="$(find throt_control_description)/launch/throttle_description.launch"/> -->
-  <node pkg="throttle_control" type="float_convert.py" name="float_convert"/>
+  <!-- <node pkg="throttle_control" type="float_convert.py" name="float_convert"/> -->
 
-  <include file="$(find throttle_control)/launch/rosbag.launch">
-    <arg name="play" value="True"/>
-  </include>
+  <!-- <include file="$(find throttle_control)/launch/rosbag.launch">
+    <arg name="play" value="False"/>
+  </include> -->
 
-  <!-- <node pkg="throttle_control" type="speed_raw.py" name="speed_set" output="screen"/> -->
+  <node pkg="throttle_control" type="speed_raw.py" name="speed_set" />
+  <node pkg="throttle_control" type="engine_feedback.py" name="engine_feedback"/>
+
+  <node pkg="throttle_control" type="pid2.py" name="pid" output="screen"/>
+
   <node pkg="throttle_control" type="enco_feedback.py" name="encoder_feedback"/>
-  <node pkg="throttle_control" type="encoder_motor_control.py" name="encoder_motor_control" output="screen"/>
 
-  <node pkg="throttle_control" type="speed_raw.py" name="set_speed"/>
+  <node pkg="throttle_control" type="encoder_motor_control.py" name="encoder_motor_control" />
+  <!-- <node pkg="throttle_control" type="float_convert.py" name="float_convert"/> -->
 
-  <node pkg="pid" type="controller" name="speed_pid" >
-     <param name="Kp" value="5.0" />
+  <!-- <node pkg="pid" type="controller" name="speed_pid" >
+     <param name="Kp" value="1.2" />
      <param name="Ki" value="0.0" />
      <param name="Kd" value="0.1" />
-     <param name="upper_limit" value="800" />
+     <param name="upper_limit" value="500" />
      <param name="lower_limit" value="0" />
-     <param name="windup_limit" value="10" />
-     <param name="max_loop_frequency" value="100.0" />
-     <param name="min_loop_frequency" value="100.0" />
+     <param name="windup_limit" value="1000" />
+     <param name="max_loop_frequency" value="60.0" />
+     <param name="min_loop_frequency" value="60.0" />
      <remap from="state" to="feedback_val2" />
    </node>
 
   <node pkg="rostopic" type="rostopic" name="Enabling_PID"
-    args='pub /pid_enable std_msgs/Bool "data: true"' output="screen"/>
+    args='pub /pid_enable std_msgs/Bool "data: true"' output="screen"/> -->
 
   <!-- <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot"/> -->
   <!-- <node pkg="rostopic" type="rostopic" name="setting_setpoint" args='pub /control_effort std_msgs/Float64 "data: 100.0"' output="screen"/> -->

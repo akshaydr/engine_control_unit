@@ -3,12 +3,12 @@
 import rospy
 from std_msgs.msg import Float64
 
-vehicle_speed = 800
+vehicle_speed = 200
 
 if __name__ == '__main__':
     rospy.init_node('speed')
     pub = rospy.Publisher('setpoint', Float64, queue_size=10)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(60)
     # vehicle_speed = input("Enter speed of the vehicle:")
 
 

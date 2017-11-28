@@ -4,18 +4,20 @@ import rospy
 from std_msgs.msg import Float64,Float32
 import time
 
+m = Float64()
 pub = None
+
 def callback(msg):
-    m = Float64()
+    global m
     m.data = msg.data
-    pub.publish(m)
 
 if __name__ == '__main__':
-    global pub
+    global pub, m
     rospy.init_node('float_converter')
     pub = rospy.Publisher('feedback_val2', Float64, queue_size=10)
-    rospy.Subscriber('feedback_val', Float32,callback)
+    rospy.Subscriber('feedback_val', Float64,callback)
     rate = rospy.Rate(60) #60 Hz
 
     while not rospy.is_shutdown():
-        rospy.spin()
+        rate.sleep()
+        pub.publish(m)

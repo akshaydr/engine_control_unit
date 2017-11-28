@@ -31,5 +31,7 @@ while not rospy.is_shutdown():
     rpm = Float64()
     rpm.data = (counter * 20) #convert counter to 0-1500 RPM
     pub.publish(rpm)
+    rospy.loginfo(rpm.data)
 
 GPIO.cleanup()
+rospy.loginfo("GPIO Cleanup done")
