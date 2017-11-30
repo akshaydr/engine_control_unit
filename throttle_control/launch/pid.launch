@@ -1,14 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- <include file="$(find throt_control_description)/launch/rviz.launch"/> -->
-  <!-- <include file="$(find throt_control_description)/launch/throttle_description.launch"/> -->
-  <!-- <node pkg="throttle_control" type="float_convert.py" name="float_convert"/> -->
-
-  <!-- <include file="$(find throttle_control)/launch/rosbag.launch">
-    <arg name="play" value="False"/>
-  </include> -->
-
   <node pkg="throttle_control" type="speed_raw.py" name="speed_set" />
   <node pkg="throttle_control" type="engine_feedback.py" name="engine_feedback"/>
 
@@ -20,7 +12,7 @@
   <!-- <node pkg="throttle_control" type="float_convert.py" name="float_convert"/> -->
 
   <node pkg="pid" type="controller" name="speed_pid" >
-     <param name="Kp" value="2.1" />  <!--1.8-->
+     <param name="Kp" value="1.8" />  <!--1.8-->
      <param name="Ki" value="0.0" />  <!--0.7-->
      <param name="Kd" value="0.0" />  <!--0.05-->
      <param name="upper_limit" value="500" />
@@ -34,16 +26,5 @@
   <node pkg="rostopic" type="rostopic" name="Enabling_PID"
     args='pub /pid_enable std_msgs/Bool "data: true"' output="screen"/>
 
-  <!-- <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot"/> -->
-  <!-- <node pkg="rostopic" type="rostopic" name="setting_setpoint" args='pub /control_effort std_msgs/Float64 "data: 100.0"' output="screen"/> -->
-
-  <!-- <node pkg="throttle_control" type="float_convert.py" name="float_converter"/> -->
-
-  <!-- <node pkg="rqt_graph" type="rqt_graph" name="rqt_graph"/> -->
-
-  <!-- <node pkg="rostopic" type="rostopic" name="printing_control_effort"
-    args="echo /control_effort" output="screen"/> -->
-
-  <!-- <include file="$(find throttle_control)/launch/throttle_control.launch"/> -->
-
+  <include file="$(find throttle_control)/launch/rosbag.launch"/>
 </launch>

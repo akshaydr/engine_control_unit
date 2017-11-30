@@ -5,7 +5,7 @@
 
 <group unless="$(arg play)">
   <!-- <node pkg="throttle_control" type="feedback.py" name="feedback" output="screen"/> -->
-  <!-- <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/pi/miniRecords/record_ /feedback_val /dirver_val" output="screen"/> -->
+  <node pkg="rosbag" type="record" name="ros_bag" args="-o /home/pi/miniRecords/record_ /feedback_val /dirver_val" output="screen"/>
 </group>
 
 <group if="$(arg play)">
