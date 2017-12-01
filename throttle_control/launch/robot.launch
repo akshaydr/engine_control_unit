@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
+  <include file="$(find throttle_control)/launch/gui.launch"/>
   <include file="$(find throt_control_description)/launch/rviz.launch"/>
   <include file="$(find throt_control_description)/launch/throttle_description.launch"/>
   <!-- <include file="$(find throttle_control)/launch/rosbag.launch"/> -->

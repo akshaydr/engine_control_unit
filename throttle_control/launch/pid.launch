@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 
-  <node pkg="throttle_control" type="speed_raw.py" name="speed_set" />
+  <!-- <node pkg="throttle_control" type="speed_loop.py" name="speed_loop" /> -->
   <node pkg="throttle_control" type="engine_feedback.py" name="engine_feedback"/>
+  <!-- <node pkg="throttle_control" type="speed_raw.py" name="speed_raw" /> -->
 
   <!-- <node pkg="throttle_control" type="pid2.py" name="pid" output="screen"/> -->
 
@@ -26,5 +27,5 @@
   <node pkg="rostopic" type="rostopic" name="Enabling_PID"
     args='pub /pid_enable std_msgs/Bool "data: true"' output="screen"/>
 
-  <include file="$(find throttle_control)/launch/rosbag.launch"/>
+  <!-- <include file="$(find throttle_control)/launch/rosbag.launch"/> -->
 </launch>
